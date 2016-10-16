@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Hello World!</title>
+		<link href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+		<link href="./css/axis/AXJ.css" rel="stylesheet" />
+		<link href="./css/axis/AXInput.css" rel="stylesheet" />
+		<link href="./css/axis/AXGrid.css" rel="stylesheet" />
+		<link href="./css/axis/AXButton.css" rel="stylesheet" />
+		<link href="./css/axis/AXProgress.css" rel="stylesheet" />
+		<script>window.$ = window.jQuery = require('./js/jquery-3.1.0.js');</script>
+		<script src="./js/axis/AXJ.js"></script>
+		<script src="./js/axis/AXProgress.js"></script>
+		<script src="./js/axis/AXGrid.js"></script>
+		
+  </head>
+  <style type="css/text">
+  * { padding : 0; margin : 0; }
+	header {
+	position absolute;
+	top : 0;
+	height : 50px;
+	background-color : #ccc;
+	}
+	div {
+	position : absolute;
+	left : 0px;
+	top : 150px;
+	bottom : 0;
+	right : 0;
+	background-color : #cee;
+	overflow : hidden;
+	}
+  </style>
+  <body>
+		<header>
+			<input type="button" id="btnUser" value="계정 동기화" class="AXButtonLarge Blue">처음 사용자는 계정 동기화 해주시기 바랍니다.
+			<iframe id="ifrView" src="http://searchad.naver.com" frameborder="0" width="1000" height="1000" onload="urlMoveEvent(this.contentWindow.location.href);"></iframe>
+			
+		</header>
+		<webview  id="foo" style="display:inline-flex; width:1000px; height:1000px"></webview>
+		<div style="top-margin:50px">
+			<div id="AXGridTarget"></div>
+		<div>
+  </body>
+<script>
+	webview = document.getElementById('foo');
+	webview.src = "http://searchad.naver.com/Login";
+	
+	$("#ifrView").hide();
+
+	$("#includedContent").load("test.html");
+	
+	require('./js/dataPick.js');
+
+	onload = () => {
+		webview.addEventListener('dom-ready', (e) => {
+		  webview.executeJavaScript('console.log(ENV.customerId)');
+		});
+
+		webview.addEventListener('console-message', (e) => {
+		  if(e.message >0 ){//id값 가져오고 나서
+				customerId = e.message;
+				webview.loadURL("https://manage.searchad.naver.com/customers/"+customerId+"/campaigns");
+				$("#foo").hide();
+		  }
+		});
+  	}//onload Event
+
+	function urlMoveEvent(url){//iframe onload
+			if(url == cmpUrl){
+				intervalCmpFunction = setInterval("dataPickCmp()", 1000);
+			}
+			if(url == grpUrl){
+				intervalGrpFunction = setInterval("dataPickGrp()", 1000);
+			}
+			
+	}
+
+		var pageID = "AXGrid";
+		var fnObj = {
+				pageStart: function () {
+						fnObj.grid.bind();
+				},
+				grid: {
+						target: new AXGrid(),
+						bind: function () {
+								window.myGrid = fnObj.grid.target;
+								/*grpInfo.id = grpList[i].attributes[1].value;
+								grpInfo.name = grpList[i].innerText;
+								grpInfo.campId*/
+								var getColGroup = function () {
+										return [
+												{key: "CampName", label: "캠페인명", width: "200"},
+												{key: "name", label: "그룹명", width: "200"},
+												{key: "no", label: "동기화", width: "150", align: "center", formatterLabel:"동기화",formatter: "checkbox"}
+										];
+								};
+
+								myGrid.setConfig({
+										targetID: "AXGridTarget",
+										sort: true, //정렬을 원하지 않을 경우 (tip
+										colHeadTool: true, // column tool use
+										fitToWidth: false, // 너비에 자동 맞춤
+										colGroup: getColGroup(),
+										colHeadAlign: "center", // 헤드의 기본 정렬 값. colHeadAlign 을 지정하면 colGroup 에서 정의한 정렬이 무시되고 colHeadAlign : false 이거나 없으면 colGroup 에서 정의한 속성이 적용됩니다.
+										body: {
+												onclick: function () {
+														toast.push(Object.toJSON({"event": "click", "index": this.index, "r": this.r, "c": this.c, "item": this.item}));
+														// this.list, this.page
+												},
+												/* ondblclick 선언하면 onclick 이벤트가 0.25 초 지연 발생 됩니다. 주의 하시기 바람니다. */
+												ondblclick: function () {
+														toast.push(Object.toJSON({"event": "dblclick", "index": this.index, "r": this.r, "c": this.c, "item": this.item}));
+														// this.list, this.page
+												},
+												addClass: function () {
+														return (this.index % 2 == 0 ? "gray" : "white"); // red, green, blue, yellow, white, gray
+												}
+										},
+										page: {
+												display: false,
+												paging: false
+										}
+								});
+						},
+						getSelectedItem: function () {
+								trace(this.target.getSelectedItem());
+								toast.push('콘솔창에 데이터를 출력하였습니다.');
+						}
+				}
+		};
+		jQuery(document.body).ready(function () {
+				fnObj.pageStart();
+		});
+
+
+
+	</script>
+
+
+  <script>
+    // You can also require other files to run in this process
+    require('./renderer.js')
+  </script>
+
+
+</html>
