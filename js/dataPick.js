@@ -16,9 +16,9 @@
 			if(this.isEnd){
 				myProgress.close();
 				mask.close();
-				myGrid.setList(grpArData, null, "reload");
+				usergrid.setList(grpArData, null, "reload");
+				$("#userDataGrid_AX_checkAll_AX_0_AX_2").hide();
 			}else{
-				// 무언가 처리를 해줍니다.	대부분 비동기 AJAX 통신 처리 구문을 수행합니다.
 				myProgress.update(); // 프로그레스의 다음 카운트를 시작합니다.
 			}
 		});
@@ -47,7 +47,6 @@
 			grpUrlMoveFlag = 0;
 
 			testPro();
-			
 	});
 
 	dataPickCmp = function(){//camp data pick
