@@ -90,9 +90,13 @@
 								window.keywordGrid = fnObj.keywordGrid.target;
 								var getColGroup = function () {
 										return [
-												{key: "CampName", label: "캠페인명", width: "200"},
-												{key: "name", label: "그룹명", width: "*"},
-												{key: "keyCout", label: "키워드수", width: "*"},
+												{key: "Name", label: "키워드", width: "200"},
+												{key: "OnOff", label: "상태", width: "*"},
+												{key: "Money", label: "입찰가", width: "*" ,formatter:"money"},
+												{key: "NudeKeyword", label: "노출가능", width: "*"},
+												{key: "nowRank", label: "현재순위", width: "*"}
+
+
 										];
 								};
 								keywordGrid.setConfig({

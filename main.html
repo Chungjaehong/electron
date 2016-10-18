@@ -39,6 +39,9 @@
 						</div>
 						<div class="col-md-6 text-right">
 							<input type="button" id="btnGroup" value="그룹 동기화" class="AXButton Blue">
+							
+							<input type="button" id="btnBiddingStart" value="입찰 시작" class="AXButton Blue">
+							<input type="button" id="btnBiddingStop" value="입찰 중지" class="AXButton Blue">
 						</div>
 					</div>
 					<ul class="nav nav-tabs">
@@ -73,12 +76,14 @@
 
 <script>
 	webview = document.getElementById('foo');
-	webview.src = "http://searchad.naver.com/Login";
+	webview.src = "http://searchad.naver.com/";
 	
 	//화면 구성
 	$("#ifrView").show();
 	$("#userDataDiv").hide();
 	$("#groupDataDiv").hide();
+	$("#btnBiddingStart").hide();
+	$("#btnBiddingStop").hide();
 
 	require('./js/dataPick.js');
 	require('./js/gridMake.js');
@@ -106,6 +111,9 @@
 		if(url == grpUrl){
 			intervalGrpFunction = setInterval("dataPickGrp()", 1000);
 		}
+		if(url==keywordUrl){
+			intervalKeywordFunction = setInterval("dataPickKeyword()", 1000);
+		}
 	}
 
 	$(".nav-tabs a").click(function(event) {
@@ -117,6 +125,12 @@
 	$("#groupDataMenu").click(function(){
 		$("#groupDataDiv").show();
 		$("#userDataDiv").hide();
+		
+		$("#btnUser").hide();
+		$("#btnGroup").hide();
+		$("#btnBiddingStart").show();
+		$("#btnBiddingStop").hide();
+
 		fnObj.groupGrid.bind();
 		fnObj.keywordGrid.bind();
 	});
@@ -124,6 +138,12 @@
 	$("#userDataMenu").click(function(){
 		$("#userDataDiv").show();
 		$("#groupDataDiv").hide();
+
+		$("#btnUser").show();
+		$("#btnGroup").show();
+		$("#btnBiddingStart").hide();
+		$("#btnBiddingStop").hide();
+
 		fnObj.usergrid.bind();
 		$("#userDataGrid_AX_checkAll_AX_0_AX_2").hide();
 	});
