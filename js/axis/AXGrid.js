@@ -5801,7 +5801,7 @@ var AXGrid = Class.create(AXJ, {
                     if (!target) {
                         _this.updateItem(r, c, ii, inline_editor.find("input").val());
                         jQuery(document.body).unbind("click.axgrid");
-                        _this.gridFocus.focus();
+                        //_this.gridFocus.focus();
                     }
                 });
             }
@@ -5834,7 +5834,7 @@ var AXGrid = Class.create(AXJ, {
                         if (e.keyCode == axf.Event.KEY_RETURN || e.keyCode == axf.Event.KEY_TAB) {
                             //_this.updateItem(r, c, ii, e.target.value);
                             jQuery(document.body).trigger('click.axgrid'); //2015-06-12 탭키 눌렀을때 select box 값이 object가 아닌 value로 들어와서 trigger 처리.
-                            _this.gridFocus.focus();
+                            //_this.gridFocus.focus();
                         }
 
                         if (e.keyCode == axf.Event.KEY_RETURN || e.keyCode == axf.Event.KEY_UP || e.keyCode == axf.Event.KEY_DOWN) {

@@ -87,6 +87,7 @@
 
 	require('./js/dataPick.js');
 	require('./js/gridMake.js');
+	require('./js/fileControll.js');
 
 	onload = () => {
 		webview.addEventListener('dom-ready', (e) => {
@@ -125,7 +126,7 @@
 	$("#groupDataMenu").click(function(){
 		$("#groupDataDiv").show();
 		$("#userDataDiv").hide();
-		
+
 		$("#btnUser").hide();
 		$("#btnGroup").hide();
 		$("#btnBiddingStart").show();
@@ -146,6 +147,16 @@
 
 		fnObj.usergrid.bind();
 		$("#userDataGrid_AX_checkAll_AX_0_AX_2").hide();
+	});
+
+	$("#btnBiddingStart").click(function(){
+		$("#btnBiddingStart").hide();
+		$("#btnBiddingStop").show();
+	});
+
+	$("#btnBiddingStop").click(function(){
+		$("#btnBiddingStart").show();
+		$("#btnBiddingStop").hide();
 	});
 </script>
 

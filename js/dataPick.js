@@ -52,12 +52,14 @@
 	});
 
 	$("#btnGroup").click(function(){
+		writeFile(JSON.stringify(usergrid.getList()),"usergrid.json");
 		$("#groupDataMenu").click();
 		$(".nav-tabs a").click();
 		fnObj.groupGrid.bind();
 		fnObj.keywordGrid.bind();
 		
 		chkVar =usergrid.getCheckedList(2);
+		writeFile(JSON.stringify(usergrid.getCheckedList(2)),"usergridChk.json");
 
 		var url = "https://manage.searchad.naver.com/customers/"+customerId+"/adgroups/"+chkVar[0].id;
 		//https://manage.searchad.naver.com/customers/948185/adgroups/grp-m001-01-000001720231439
@@ -110,6 +112,11 @@
 							keywordInfo.Money = arMoney[i].innerText; 
 							keywordInfo.GroupId = gGroupId;
 							keywordInfo.nowRank = 0;
+							
+							keywordInfo.wantRank = 1;//희망순위
+							keywordInfo.biddingPay = 500;//가감액
+							keywordInfo.maxPay = 500;//입찰 한도
+
 							if(i == 0 ){//키워드 노출
 								keywordInfo.OnOff =arNudeKeyword[i+2].innerText;//   On/Off상태
 								keywordInfo.NudeKeyword =arNudeKeyword[i+11].innerText;//노출 가능 횟수
