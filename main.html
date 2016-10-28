@@ -97,7 +97,7 @@
 		webview.addEventListener('console-message', (e) => {
 		  if(e.message >0 ){//id값 가져오고 나서
 				$("#foo").hide();
-
+				
 				customerId = e.message;
 				webview.loadURL("https://manage.searchad.naver.com/customers/"+customerId+"/campaigns");
 				$("#userDataMenu").click();
@@ -147,6 +147,8 @@
 
 		fnObj.usergrid.bind();
 		$("#userDataGrid_AX_checkAll_AX_0_AX_2").hide();
+		
+		readFile("usergrid.json","usergrid");
 	});
 
 	$("#btnBiddingStart").click(function(){

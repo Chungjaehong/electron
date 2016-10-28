@@ -59,7 +59,7 @@
 		fnObj.keywordGrid.bind();
 		
 		chkVar =usergrid.getCheckedList(2);
-		writeFile(JSON.stringify(usergrid.getCheckedList(2)),"usergridChk.json");
+		//writeFile(JSON.stringify(usergrid.getCheckedList(2)),"usergridChk.json");
 
 		var url = "https://manage.searchad.naver.com/customers/"+customerId+"/adgroups/"+chkVar[0].id;
 		//https://manage.searchad.naver.com/customers/948185/adgroups/grp-m001-01-000001720231439
