@@ -24,9 +24,9 @@
 	
 
 
-	campArData = new Array();
-	grpArData = new Array();
-	keyArData = new Array();
+	campArData = new Array();//바른속기1 바른속기2
+	grpArData = new Array();//캠페인 안에 그룹
+	keyArData = new Array();//그룹 안에 키워드
 
 	grpUrl = "";
 	cmpUrl = "";
@@ -111,7 +111,9 @@
 							keywordInfo.Name = arKeyword[i].innerText;
 							keywordInfo.Money = arMoney[i].innerText; 
 							keywordInfo.GroupId = gGroupId;
+							keywordInfo.GroupUrl = "https://manage.searchad.naver.com/customers/"+customerId+"/adgroups/"+chkVar[kewwordUrlMoveFlag].id;
 							keywordInfo.nowRank = 0;
+							
 							
 							keywordInfo.wantRank = 1;//희망순위
 							keywordInfo.biddingPay = 500;//가감액

@@ -123,7 +123,7 @@
 		$(this).parent().siblings().removeClass("active");
 	});
 
-	$("#groupDataMenu").click(function(){
+	$("#groupDataMenu").click(function(){//자동 입찰 탭
 		$("#groupDataDiv").show();
 		$("#userDataDiv").hide();
 
@@ -136,7 +136,7 @@
 		fnObj.keywordGrid.bind();
 	});
 
-	$("#userDataMenu").click(function(){
+	$("#userDataMenu").click(function(){//계정정보 탭
 		$("#userDataDiv").show();
 		$("#groupDataDiv").hide();
 
@@ -151,12 +151,13 @@
 		readFile("usergrid.json","usergrid");
 	});
 
-	$("#btnBiddingStart").click(function(){
+	$("#btnBiddingStart").click(function(){ //입찰 시작 버튼
 		$("#btnBiddingStart").hide();
 		$("#btnBiddingStop").show();
+		
 	});
 
-	$("#btnBiddingStop").click(function(){
+	$("#btnBiddingStop").click(function(){ // 입찰 중지 버튼
 		$("#btnBiddingStart").show();
 		$("#btnBiddingStop").hide();
 	});

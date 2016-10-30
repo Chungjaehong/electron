@@ -28,6 +28,7 @@
             }
             
             if(gridName == "usergrid"){
+                campArData = JSON.parse(data)
                 usergrid.setList(JSON.parse(data), null, "reload");
             }
 
