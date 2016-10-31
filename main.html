@@ -28,7 +28,7 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-12">
-					
+					<iframe id="ifrView" src="http://searchad.naver.com" frameborder="0" width="1000" height="1000" onload="urlMoveEvent(this.contentWindow.location.href);"></iframe>		
 				</div>
 			</div>
 			<div class="row">
@@ -70,7 +70,7 @@
 					</div>
 				</div>
 			</div>
-			<iframe id="ifrView" src="http://searchad.naver.com" frameborder="0" width="1000" height="1000" onload="urlMoveEvent(this.contentWindow.location.href);"></iframe>
+			<!-- <iframe id="ifrView" src="http://searchad.naver.com" frameborder="0" width="1000" height="1000" onload="urlMoveEvent(this.contentWindow.location.href);"></iframe> -->
 	</div>
   </body>
 
@@ -88,6 +88,7 @@
 	require('./js/dataPick.js');
 	require('./js/gridMake.js');
 	require('./js/fileControll.js');
+	require('./js/bidding.js');
 
 	onload = () => {
 		webview.addEventListener('dom-ready', (e) => {
@@ -106,14 +107,28 @@
   	}//onload Event
 
 	function urlMoveEvent(url){//iframe onload
-		if(url == cmpUrl){
-			intervalCmpFunction = setInterval("dataPickCmp()", 1000);
+		if(urlMoveFlag == "C"){
+			if(url == cmpUrl){
+				intervalCmpFunction = setInterval("dataPickCmp()", 1000);
+			}
 		}
-		if(url == grpUrl){
-			intervalGrpFunction = setInterval("dataPickGrp()", 1000);
+
+		if(urlMoveFlag == "G"){
+			if(url == grpUrl){
+				intervalGrpFunction = setInterval("dataPickGrp()", 1000);
+			}
 		}
-		if(url==keywordUrl){
-			intervalKeywordFunction = setInterval("dataPickKeyword()", 1000);
+
+		if(urlMoveFlag == "K"){
+			if(url == keywordUrl){
+				intervalKeywordFunction = setInterval("dataPickKeyword()", 1000);
+			}
+		}
+
+		if(urlMoveFlag == "B"){
+			if(url == gBiddingUrl){
+				intervalBiddingFunction = setInterval("biddingFunction()", 1000);
+			}
 		}
 	}
 
@@ -149,12 +164,6 @@
 		$("#userDataGrid_AX_checkAll_AX_0_AX_2").hide();
 		
 		readFile("usergrid.json","usergrid");
-	});
-
-	$("#btnBiddingStart").click(function(){ //입찰 시작 버튼
-		$("#btnBiddingStart").hide();
-		$("#btnBiddingStop").show();
-		
 	});
 
 	$("#btnBiddingStop").click(function(){ // 입찰 중지 버튼

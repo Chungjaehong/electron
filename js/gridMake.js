@@ -27,10 +27,10 @@
 										colGroup: getColGroup(),
 										colHeadAlign: "center", // 헤드의 기본 정렬 값. colHeadAlign 을 지정하면 colGroup 에서 정의한 정렬이 무시되고 colHeadAlign : false 이거나 없으면 colGroup 에서 정의한 속성이 적용됩니다.
 										body: {
-												onclick: function () {
-														toast.push(Object.toJSON({"event": "click", "index": this.index, "r": this.r, "c": this.c, "item": this.item}));
+												//onclick: function () {
+												//		toast.push(Object.toJSON({"event": "click", "index": this.index, "r": this.r, "c": this.c, "item": this.item}));
 														// this.list, this.page
-												},
+												//},
 												addClass: function () {
 														return (this.index % 2 == 0 ? "blue" : "white"); // red, green, blue, yellow, white, gray
 												}
@@ -100,6 +100,7 @@
 												},
 												{key: "Name", label: "키워드", width: "150"},
 												{key: "OnOff", label: "상태", width: "150"},
+												{key: "markettingUrl", label: "사이트", width: "150"},
 												{key: "Money", label: "입찰가", width: "150" ,formatter:"money"},
 												{key: "NudeKeyword", label: "업체수", width: "100"},
 												{key: "nowRank", label: "현재순위", width: "*"},

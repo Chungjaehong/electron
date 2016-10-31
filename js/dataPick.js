@@ -24,34 +24,41 @@
 	
 
 
-	campArData = new Array();//바른속기1 바른속기2
-	grpArData = new Array();//캠페인 안에 그룹
-	keyArData = new Array();//그룹 안에 키워드
+	campArData = new Array();//바른속기1 바른속기2 --> 계정정보
+	grpArData = new Array();//캠페인 안에 그룹   --> 계정정보
+	
+	chkVar = new Array();	//선택된 그룹 --> 자동입찰 상위
+	keyArData = new Array();//그룹 안에 키워드 --> 자동입찰 하위
+	
 
+	
 	grpUrl = "";
 	cmpUrl = "";
 	keywordUrl = "";
+	gBiddingUrl = "";
+	urlMoveFlag = "";
 	
 	gCampId ="";
 	gCampName="";
 	gGroupId = "";
 	grpUrlMoveFlag =0;
 	kewwordUrlMoveFlag =0;
+
 	//948185
-	$("#btnUser").click(function(){
-		var url = "https://manage.searchad.naver.com/customers/"+customerId+"/campaigns";
-		cmpUrl = url; 
-		urlMove(url,"CAMP");
-		
+	$("#btnUser").click(function(){//계정 동기화 버튼
 		//init variable
 		campArData = new Array();
 		grpArData = new Array();
 		grpUrlMoveFlag = 0;
 
+		var url = "https://manage.searchad.naver.com/customers/"+customerId+"/campaigns";
+		cmpUrl = url; 
+		urlMove(url,"CAMP");
+
 		testPro();
 	});
 
-	$("#btnGroup").click(function(){
+	$("#btnGroup").click(function(){//그룹 동기화 버튼
 		writeFile(JSON.stringify(usergrid.getList()),"usergrid.json");
 		$("#groupDataMenu").click();
 		$(".nav-tabs a").click();
@@ -70,35 +77,16 @@
 		kewwordUrlMoveFlag = 0;
 
 		urlMove(url,"KEYWORD");
-		//testPro();
+		testPro();
 	});
 
-	rankPickFlag =0;
-
-	dataPickRank = function(){//Rank Data
-		var arKeyRank =$("#ifrView").contents().find('table tr[id] a.show-preview-cnt');//보기 버튼
-		var modalRank = $("#ifrView").contents().find('div.modal-body div.scroll-wrap div a.lnk_tit'); 
-
-		if(modalRank.length > 0){
-			
-		}else{
-			arKeyRank[rankPickFlag].click();
-			rankPickFlag++;
-		}
-
-		if(arKeyRank.length > 0 ){
-			//intervalRankDataPick = setInterval("dataPickRank()", 4000);
-		}
-		
-	}
-
-
-
-	dataPickKeyword = function(){//Keyword data pick
+	dataPickKeyword = function(){//키워드 데이터
 			var arKeyword	  =$("#ifrView").contents().find('table tr[id] span span');//키워드
 			var arMoney		  =$("#ifrView").contents().find('table tr[id] td a.js-editable');//금액
 			var arNudeKeyword =$("#ifrView").contents().find('table tr[id] td');//12개 단위
 			var arKeyRank     =$("#ifrView").contents().find('table tr[id] a.show-preview-cnt');//보기 버튼
+
+			var marketUrl= $("#ifrView").contents().find('div dd p.ng-binding');//마케팅 url
 
 			if(arKeyword.length > 0){
 					clearInterval(intervalKeywordFunction);
@@ -118,6 +106,7 @@
 							keywordInfo.wantRank = 1;//희망순위
 							keywordInfo.biddingPay = 500;//가감액
 							keywordInfo.maxPay = 500;//입찰 한도
+							keywordInfo.markettingUrl = marketUrl[0].innerHTML;//광고 사이트 주소
 
 							if(i == 0 ){//키워드 노출
 								keywordInfo.OnOff =arNudeKeyword[i+2].innerText;//   On/Off상태
@@ -134,10 +123,12 @@
 					kewwordUrlMoveFlag++;
 
 					chkVar[kewwordUrlMoveFlag-1].keyCout = arKeyword.length;//키워드 수
+					chkVar[kewwordUrlMoveFlag-1].groupUrl = "https://manage.searchad.naver.com/customers/"+customerId+"/adgroups/"+ gGroupId;
 
 					if(chkVar.length == kewwordUrlMoveFlag){
 						keywordGrid.setList(keyArData[0], null, "reload");
 						groupGrid.setList(chkVar, null, "reload");
+						groupGrid.setFocus(0);
 					}
 					
 
@@ -181,6 +172,7 @@
 							}
 							
 							var url = "https://manage.searchad.naver.com/customers/"+customerId+"/campaigns/"+campArData[grpUrlMoveFlag].id+"?recordSize=1001";
+							webview.loadURL(url);
 							grpUrl = url;
 
 							if(campArData.length > grpUrlMoveFlag){
@@ -194,6 +186,7 @@
 
 	dataPickGrp = function(){//group data pick
 			var grpList = $("#ifrView").contents().find('li.active.open-list ul li a');
+			var urlList = $("#ifrView").contents().find('div table tbody tr td');
 
 			if(grpList.length > 0){
 					clearInterval(intervalGrpFunction);
@@ -204,8 +197,7 @@
 								grpInfo.name = grpList[i].innerText;
 								grpInfo.campId = gCampId;
 								grpInfo.CampName = campArData[grpUrlMoveFlag].name;
-
-								grpArData.push(grpInfo);
+								grpInfo.GroupUrl = "https://manage.searchad.naver.com/customers/"+customerId+"/adgroups/"+grpList[i].attributes[1].value;
 					}
 
 					var url = "https://manage.searchad.naver.com/customers/"+customerId+"/campaigns?recordSize=1001";
@@ -220,7 +212,24 @@
 	}
 
 	urlMove = function(url,flag){
+		if(flag == "CAMP"){
+			urlMoveFlag = "C"
+		}
+
+		if(flag == "GROUP"){
+			urlMoveFlag = "G"
+		}
+
+		if(flag == "KEYWORD"){
+			urlMoveFlag = "K"
+		}
+
+		if(flag == "BIDDING"){
+			urlMoveFlag = "B"
+		}
+
 		$("#ifrView").attr("src",url);
+
 	}//Url Move Func
 
 }());
